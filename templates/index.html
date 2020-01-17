@@ -2,17 +2,40 @@
   <head>
 	<style>
 	  .hidden {display: none;}
+	  .is-question {color: red;}
+	  .is-answer {color: green;}
+	  .message-holder {
+		  border: 1px solid;
+		  padding: 4px;
+		  height: 500px;
+		  width: 480px;
+		  margin-top: 16px;
+		  margin-bottom: 16px;
+		  overflow-y: scroll;
+	  }
+	  .msg-entries {
+		  padding: 8px;
+	  }
+	  .form-group {
+		  margin-bottom: 16px;
+	  }
 	</style>
 	<title>Flask Chat</title>
   </head>
   <body>
 	<div id="root">
+	  <h1>Flask Chat</h1>
+	  <div>Red text means someone asked a question. To help them out, click on it to answer.</div>
 	  <div class="message-holder" id="message_holder"></div>
 	  <div class="form-container">
 		<form action="" method="POST">
-		  <select name="username" id="username">
-		  </select>
-		  <input type="text" name="message_text" id="message_text" placeholder="Enter message..." />
+		  <div class="form-group">
+			<label for="username">User: </label>
+			<select name="username" id="username"></select>
+		  </div>
+		  <div class="form-group">
+			<input type="text" name="message_text" id="message_text" placeholder="Enter message..." />
+		  </div>
 		  <input type="hidden" name="question_id" id="question_id" />
 		  <div class="btn-group" id="default_btn_group">
 			<button type="submit">Send Message</button>

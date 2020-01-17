@@ -8,8 +8,11 @@ $.ajax({
 			result.output.forEach(user => {
 			userSelect.append('<option value="' + user.id + '">' + user.display_name + '</option>');
 		});
-	}
-	
+	},
+	error: function (xhr, status, error) {
+        alert("Failed to load users, please try again later")
+		console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+    }
 });
 
 socket.on('connect', function() {
@@ -73,13 +76,18 @@ socket.on('connect', function() {
 
 socket.on('server_response', function(msg) {
 	if (typeof msg.username !== 'undefined') {
-		let newMessageElement = $('<div>' + msg.username + ': ' + msg.message + '</div>')
-		if (msg.question_id) {
+		let newMessageElement = $('<div class="msg-entries">' + msg.username + ': ' + msg.message + '</div>')
+		if (msg.answer_id) {
+			let questionId = msg.question_id;
+
+			newMessageElement.addClass('is-answer');
+			
+		} else if (msg.question_id) {
 			let questionId = msg.question_id;
 
 			newMessageElement.click(function(e) {
 				e.preventDefault();
-				console.log("you can answer this: " + questionId);
+				$('input#message_text').val('').attr('placeholder', 'Q: ' + msg.message).focus();
 				$('input#question_id').val(questionId);
 				$('div#default_btn_group').addClass('hidden');
 				$('div#answering_btn_group').removeClass('hidden')
@@ -87,13 +95,10 @@ socket.on('server_response', function(msg) {
 
 			newMessageElement.addClass('is-question');
 
-		} else if (msg.answer_id) {
-			let questionId = msg.question_id;
-
-			newMessageElement.addClass('is-answer');
-			
 		}
 
-		$('div#message_holder').append(newMessageElement);
+		let msgHolder = $('div#message_holder');
+		msgHolder.append(newMessageElement);
+		msgHolder.animate({scrollTop: msgHolder.prop('scrollHeight')}, 1000);
 	}
 });

@@ -13,6 +13,7 @@ userRepo = UserRepo()
 questionRepo = QuestionRepo()
 answerRepo = AnswerRepo()
 
+# inserting some "users"
 userRepo.create('Zoey')
 userRepo.create('Mal')
 userRepo.create('Kaylee')
@@ -25,6 +26,7 @@ def get_all_users():
 
     return jsonify(result)
 
+# for debugging purpose
 @app.route('/questions')
 def get_all_questions():
     uc = GetAllQuestionsUseCase(questionRepo)
@@ -32,6 +34,7 @@ def get_all_questions():
 
     return jsonify(result)
 
+# for debugging purpose
 @app.route('/answers')
 def get_all_answers():
     uc = GetAllAnswersUseCase(answerRepo)
