@@ -1,5 +1,8 @@
 <html>
   <head>
+	<style>
+	  .hidden {display: none;}
+	</style>
 	<title>Flask Chat</title>
   </head>
   <body>
@@ -9,9 +12,16 @@
 		<form action="" method="POST">
 		  <select name="username" id="username">
 		  </select>
-		  <input type="text" name="message_text" id="message_text" placeholder="Enter message..."/>
-		  <button type="submit">Send Message</button>
-		  <button type="button" id="ask_question_btn">Ask Question</button>
+		  <input type="text" name="message_text" id="message_text" placeholder="Enter message..." />
+		  <input type="hidden" name="question_id" id="question_id" />
+		  <div class="btn-group" id="default_btn_group">
+			<button type="submit">Send Message</button>
+			<button type="button" id="ask_question_btn">Ask Question</button>
+		  </div>
+		  <div class="btn-group hidden" id="answering_btn_group">
+			<button type="button" id="answer_question_btn">Answer</button>
+			<button type="button" id="cancel_answering_btn">Cancel</button>
+		  </div>
 		</form>
 	  </div>
 	</div>

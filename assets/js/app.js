@@ -42,19 +42,58 @@ socket.on('connect', function() {
 
 		$('input#message_text').val('').focus();
 	});
+
+	let answeringButton = $('button#answer_question_btn').click(function(e) {
+		e.preventDefault();
+
+		let userId = $('select#username').val();
+		let msgText = $('input#message_text').val();
+		let questionId = $('input#question_id').val();
+
+		socket.emit('answer_event', {
+			user_id: userId,
+			message: msgText,
+			question_id: questionId
+		});
+
+		$('input#message_text').val('').focus();
+		$('input#question_id').val('');
+		$('div#default_btn_group').removeClass('hidden');
+		$('div#answering_btn_group').addClass('hidden')
+	});
+
+	let cancelAnsweringButton = $('button#cancel_answering_btn').click(function(e) {
+		e.preventDefault();
+
+		$('input#question_id').val('');
+		$('div#default_btn_group').removeClass('hidden');
+		$('div#answering_btn_group').addClass('hidden')
+	});
 });
 
 socket.on('server_response', function(msg) {
-	console.log(msg);
 	if (typeof msg.username !== 'undefined') {
 		let newMessageElement = $('<div>' + msg.username + ': ' + msg.message + '</div>')
-		if (msg.question_asked) {
+		if (msg.question_id) {
+			let questionId = msg.question_id;
+
 			newMessageElement.click(function(e) {
 				e.preventDefault();
-				console.log("you can answer this");
+				console.log("you can answer this: " + questionId);
+				$('input#question_id').val(questionId);
+				$('div#default_btn_group').addClass('hidden');
+				$('div#answering_btn_group').removeClass('hidden')
 			});
+
 			newMessageElement.addClass('is-question');
+
+		} else if (msg.answer_id) {
+			let questionId = msg.question_id;
+
+			newMessageElement.addClass('is-answer');
+			
 		}
+
 		$('div#message_holder').append(newMessageElement);
 	}
 });

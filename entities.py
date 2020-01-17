@@ -22,3 +22,19 @@ class Question(object):
             'text': self.text,
             'user_id': self.user_id,
         }
+
+
+class Answer(object):
+    def __init__(self, id, text, user_id, question_id):
+        self.id = id
+        self.text = text
+        self.user_id = user_id
+        self.question_id = question_id
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'user_id': self.user_id,
+            'question_id': self.question_id
+        }
