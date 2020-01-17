@@ -1,17 +1,29 @@
 let socket = io.connect('http://' + document.domain + ':' + location.port);
 
+$.ajax({
+	type: "GET",
+	url: "/users",
+	success: function(result, status, xhr) {
+		let userSelect = $('select#username');
+			result.output.forEach(user => {
+			userSelect.append('<option value="' + user.id + '">' + user.display_name + '</option>');
+		});
+	}
+	
+});
+
 socket.on('connect', function() {
-	socket.emit('chat_event', {
+	socket.emit('connected_event', {
 		data: 'User Connected'
 	});
 	let form = $('form').on('submit', function(e) {
 		e.preventDefault();
 
-		let username = $('select#username').val();
+		let userId = $('select#username').val();
 		let msgText = $('input#message_text').val();
 
 		socket.emit('chat_event', {
-			username: username,
+			user_id: userId,
 			message: msgText
 		});
 
