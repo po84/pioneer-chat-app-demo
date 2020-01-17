@@ -1,0 +1,23 @@
+<html>
+  <head>
+	<title>Flask Chat</title>
+  </head>
+  <body>
+	<div id="root">
+	  <div class="message-holder" id="message_holder"></div>
+	  <div class="form-container">
+		<form action="" method="POST">
+		  <select name="username" id="username">
+			<option value="Alice">Alice</option>
+			<option value="Bob">Bob</option>
+		  </select>
+		  <input type="text" name="message_text" id="message_text" placeholder="Enter message..."/>
+		  <button type="submit">Send Message</button>
+		</form>
+	  </div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+	<script src="../assets/js/app.js"></script>
+  </body>
+</html>
