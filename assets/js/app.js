@@ -29,11 +29,32 @@ socket.on('connect', function() {
 
 		$('input#message_text').val('').focus();
 	});
+
+	let askQuestionButton = $('button#ask_question_btn').click(function(e) {
+		e.preventDefault();
+
+		let userId = $('select#username').val();
+		let msgText = $('input#message_text').val();
+		socket.emit('question_event', {
+			user_id: userId,
+			message: msgText
+		});
+
+		$('input#message_text').val('').focus();
+	});
 });
 
 socket.on('server_response', function(msg) {
 	console.log(msg);
 	if (typeof msg.username !== 'undefined') {
-		$('div#message_holder').append('<div>' + msg.username + ': ' + msg.message + '</div>');
+		let newMessageElement = $('<div>' + msg.username + ': ' + msg.message + '</div>')
+		if (msg.question_asked) {
+			newMessageElement.click(function(e) {
+				e.preventDefault();
+				console.log("you can answer this");
+			});
+			newMessageElement.addClass('is-question');
+		}
+		$('div#message_holder').append(newMessageElement);
 	}
 });
