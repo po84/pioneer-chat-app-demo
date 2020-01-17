@@ -20,6 +20,8 @@ Go to http://localhost:5000 in your browser
 
 App can be launched in multiple browsers to simulate a real chat room scenario
 
+A dropdown widget with prepopulated users is used to simulate different users using the app.
+
 App saves data in memory, every time the server is restarted all questions/answers data from previous session will be gone.
 
 Users are populated on server start, their ids will be different.
